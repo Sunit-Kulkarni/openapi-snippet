@@ -193,19 +193,20 @@ const capitalizeFirstLetter = function (string) {
 module.exports = {
   getSnippets,
   getEndpointSnippets,
-  getBaseUrl: OpenAPIToHar.getEndpointSnippets
+  getBaseUrl: OpenAPIToHar.getBaseUrl
 }
 
 // The if is only for when this is run from the browser
 if (typeof window !== 'undefined') {
   // grab existing namespace object, or create a blank object
   // if it doesn't exist
-  const OpenAPISnippets = window.OpenAPISnippets || {}
+  let OpenAPISnippets = window.OpenAPISnippets || {}
 
   // define that object
   OpenAPISnippets = {
     getSnippets,
-    getEndpointSnippets
+    getEndpointSnippets,
+    getBaseUrl: OpenAPIToHar.getBaseUrl
   }
 
   // replace/create the global namespace

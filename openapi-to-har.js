@@ -113,12 +113,12 @@ const getBaseUrl = function (openApi) {
     baseUrl += 'http'
   }
 
-  if (!swagger.host) {
-    swagger.host = 'localhost';
+  if (!openApi.host) {
+    openApi.host = 'localhost';
     console.warn('host identifier was not provided, defaulting to "localhost" instead');
   }
-  if (!swagger.basePath) {
-    swagger.basePath = ':8080';
+  if (!openApi.basePath) {
+    openApi.basePath = ':8080';
     console.warn('basePath identifier was not provided, defaulting to ":8080" instead');
   }
 
