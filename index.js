@@ -18,7 +18,7 @@ const HTTPSnippet = require('httpsnippet')
  * @param {object} openApi  OpenAPI document
  * @param {string} path     Path identifying endpoint, e.g., '/users'
  * @param {string} method   HTTP method identifying endpoint, e.g., 'get'
- * @param {array} targets   List of languages to create snippets in, e.g, 
+ * @param {array} targets   List of languages to create snippets in, e.g,
  *                          ['cURL', 'Node']
  * @param {object} values   Optional: Values for the query parameters if present
  */
@@ -54,9 +54,9 @@ const getEndpointSnippets = function (openApi, path, method, targets, values) {
 
 /**
  * Return snippets for all endpoints in the given OpenAPI document.
- * 
+ *
  * @param {object} openApi  OpenAPI document
- * @param {array} targets   List of languages to create snippets in, e.g, 
+ * @param {array} targets   List of languages to create snippets in, e.g,
  *                          ['cURL', 'Node']
  */
 const getSnippets = function (openApi, targets) {
@@ -192,7 +192,8 @@ const capitalizeFirstLetter = function (string) {
 
 module.exports = {
   getSnippets,
-  getEndpointSnippets
+  getEndpointSnippets,
+  getBaseUrl: OpenAPIToHar.getEndpointSnippets
 }
 
 // The if is only for when this is run from the browser

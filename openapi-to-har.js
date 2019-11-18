@@ -113,6 +113,15 @@ const getBaseUrl = function (openApi) {
     baseUrl += 'http'
   }
 
+  if (!swagger.host) {
+    swagger.host = 'localhost';
+    console.warn('host identifier was not provided, defaulting to "localhost" instead');
+  }
+  if (!swagger.basePath) {
+    swagger.basePath = ':8080';
+    console.warn('basePath identifier was not provided, defaulting to ":8080" instead');
+  }
+
   if (openApi.basePath === '/') {
     baseUrl += '://' + openApi.host
   } else {
@@ -260,7 +269,7 @@ const getHeadersArray = function (openApi, path, method) {
       switch (authType) {
         case 'http':
           switch(authScheme){
-            case 'bearer': 
+            case 'bearer':
               oauthDef = secScheme
               break
             case 'basic':
@@ -318,14 +327,16 @@ const openApiToHarList = function (openApi) {
     const harList = []
     for (let path in openApi.paths) {
       for (let method in openApi.paths[path]) {
-        const url = baseUrl + path
-        const har = createHar(openApi, path, method)
-        harList.push({
-          method: method.toUpperCase(),
-          url: url,
-          description: openApi.paths[path][method].description || 'No description available',
-          har: har
-        })
+        if (isHTTPMethod(method)) {
+          const url = baseUrl + path
+          const har = createHar(openApi, path, method)
+          harList.push({
+            method: method.toUpperCase(),
+            url: url,
+            description: openApi.paths[path][method].description || 'No description available',
+            har: har
+          });
+        }
       }
     }
 
@@ -334,6 +345,11 @@ const openApiToHarList = function (openApi) {
     console.log(e);
   }
 }
+
+var isHTTPMethod = (string) => {
+  string = string.toUpperCase();
+  return (string === 'GET' || string === 'POST' || string === 'PUT' || string === 'DELETE' || string === 'UPDATE' || string === 'OPTIONS' || string === 'TRACE' || string === 'CONNECT' || string === 'PATCH');
+};
 
 /**
  * Returns the value referenced in the given reference string
@@ -360,5 +376,6 @@ const resolveRef = function (openApi, ref) {
 
 module.exports = {
   getAll: openApiToHarList,
+  getBaseUrl,
   getEndpoint: createHar
 }
